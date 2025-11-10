@@ -1,0 +1,28 @@
+$PSVersionTable.PSVersion
+Get-ExecutionPolicy -List
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Install-Module -Name Az -Repository PSGallery -Force
+Update-Module -Name Az -Force
+Connect-AzAccount
+
+#Define a required variables
+$rg = "BzResourceGroup"
+$vmname = "vm01"
+$location = "centralindia"
+$vnet = "BzVnet01"
+$subnet = "VmSubnet01"
+$nsg = "NSG01"
+$publicip = "publicIp01"
+
+New-AzVm `
+    -ResourceGroupName $rg `
+    -Name $vmname `
+    -Location $location `
+    -Image Win2019Datacenter `
+    -VirtualNetworkName $vnet `
+    -SubnetName $subnet `
+    -SecurityGroupName $nsg `
+    -PublicIpAddressName $publicip `
+    -OpenPorts 80,3389
+    
+    
